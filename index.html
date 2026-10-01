@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Truth or Dare Sleepover</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <p class="eyebrow">October 8 Sleepover</p>
+        <h1>Truth or Dare</h1>
+      </header>
+
+      <main class="game-panel">
+        <section class="player-section">
+          <h2>Players</h2>
+          <div id="playerList" class="player-list" aria-live="polite"></div>
+        </section>
+
+        <section class="challenge-section">
+          <div class="turn-indicator">
+            <span>Current player</span>
+            <strong id="currentPlayer">KV</strong>
+          </div>
+
+          <div id="challengeCard" class="challenge-card hidden">
+            <p id="challengeType" class="challenge-type">Truth</p>
+            <h3 id="challengeText">Pick a challenge!</h3>
+          </div>
+
+          <div class="actions">
+            <button id="truthBtn" class="primary">Truth</button>
+            <button id="dareBtn">Dare</button>
+            <button id="nextBtn" class="secondary">Next Player</button>
+            <button id="resetBtn" class="ghost">Reset</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
