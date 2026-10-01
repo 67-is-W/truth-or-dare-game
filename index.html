@@ -1,45 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Truth or Dare Sleepover</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="app">
-      <header class="topbar">
-        <p class="eyebrow">October 8 Sleepover</p>
-        <h1>Truth or Dare</h1>
-      </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth or Dare - Sleepover Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      <main class="game-panel">
-        <section class="player-section">
-          <h2>Players</h2>
-          <div id="playerList" class="player-list" aria-live="polite"></div>
-        </section>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-        <section class="challenge-section">
-          <div class="turn-indicator">
-            <span>Current player</span>
-            <strong id="currentPlayer">KV</strong>
-          </div>
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
 
-          <div id="challengeCard" class="challenge-card hidden">
-            <p id="challengeType" class="challenge-type">Truth</p>
-            <h3 id="challengeText">Pick a challenge!</h3>
-          </div>
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
 
-          <div class="actions">
-            <button id="truthBtn" class="primary">Truth</button>
-            <button id="dareBtn">Dare</button>
-            <button id="nextBtn" class="secondary">Next Player</button>
-            <button id="resetBtn" class="ghost">Reset</button>
-          </div>
-        </section>
-      </main>
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .player-name {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .challenge {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .challenge-type {
+            font-size: 1.2em;
+            color: #764ba2;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .challenge-text {
+            font-size: 1.3em;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .truth-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .dare-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .next-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #999;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Truth or Dare</h1>
+        <p class="subtitle">October 8 Sleepover</p>
+
+        <div class="player-name" id="playerName">KV</div>
+
+        <div class="challenge" id="challengeBox">
+            <div class="challenge-type" id="challengeType">Pick an option!</div>
+            <div class="challenge-text" id="challengeText">Click Truth or Dare</div>
+        </div>
+
+        <div>
+            <button class="truth-btn" onclick="playTruth()">Truth</button>
+            <button class="dare-btn" onclick="playDare()">Dare</button>
+        </div>
+
+        <div>
+            <button class="next-btn" onclick="nextPlayer()">Next Player</button>
+            <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <script>
+        const players = ["KV", "KS", "AD", "SD", "MIKU", "AK99"];
+
+        const truths = [
+            "What is the funniest thing you've ever done?",
+            "What's your biggest secret?",
+            "Who's your crush?",
+            "What's your most embarrassing moment?",
+            "What would you never do?",
+            "What's your biggest fear?",
+            "What's a lie you've told?",
+            "What's your weirdest habit?",
+            "Who in this room do you think is the funniest?",
+            "What's something you wish people knew about you?",
+            "What's the silliest thing you believe?",
+            "What would you do for $1,000?"
+        ];
+
+        const dares = [
+            "Do 10 jumping jacks",
+            "Sing the alphabet backwards",
+            "Dance like nobody's watching for 30 seconds",
+            "Imitate someone in the group",
+            "Tell a joke",
+            "Do your best movie villain impression",
+            "Speak in an accent for the next round",
+            "Act like a sleepy cat",
+            "Do a dramatic monologue",
+            "Balance something on your head",
+            "Do your silliest dance move",
+            "Let someone choose what you eat next"
+        ];
+
+        let currentPlayer = 0;
+
+        function updatePlayer() {
+            document.getElementById('playerName').textContent = players[currentPlayer];
+            document.getElementById('challengeType').textContent = 'Pick an option!';
+            document.getElementById('challengeText').textContent = 'Click Truth or Dare';
+        }
+
+        function playTruth() {
+            const truth = truths[Math.floor(Math.random() * truths.length)];
+            document.getElementById('challengeType').textContent = 'TRUTH';
+            document.getElementById('challengeText').textContent = truth;
+        }
+
+        function playDare() {
+            const dare = dares[Math.floor(Math.random() * dares.length)];
+            document.getElementById('challengeType').textContent = 'DARE';
+            document.getElementById('challengeText').textContent = dare;
+        }
+
+        function nextPlayer() {
+            currentPlayer = (currentPlayer + 1) % players.length;
+            updatePlayer();
+        }
+
+        function resetGame() {
+            currentPlayer = 0;
+            updatePlayer();
+        }
+
+        updatePlayer();
+    </script>
+</body>
 </html>
