@@ -221,7 +221,17 @@
             "What is a small thing that instantly annoys you?",
             "What is the weirdest dream you have ever had?",
             "What is something you wish you were better at?",
-            "What is your most embarrassing nickname?"
+            "What is your most embarrassing nickname?",
+            "Who here is the funniest person to prank?",
+            "What is your secret talent?",
+            "What is the most childish thing you still do?",
+            "What would you do if you got a free makeover?",
+            "What is something you have always wanted to say but never did?",
+            "What is the most random thing you know by heart?",
+            "What is a habit you would never want anyone to catch you doing?",
+            "Who here would you least want to be stuck in a zombie apocalypse with?",
+            "What is the weirdest thing you have searched online?",
+            "What is a mistake you are still embarrassed about?"
         ];
 
         const dares = [
@@ -244,10 +254,29 @@
             "Act like a zombie for 15 seconds and then say a funny line.",
             "Take a goofy selfie and make it your lock screen for the next round.",
             "Tell the group your weirdest fake excuse for being late.",
-            "Do a slow motion walk across the room while everyone claps."
+            "Do a slow motion walk across the room while everyone claps.",
+            "Pretend to be a dog and fetch a random object from the room.",
+            "Do a dramatic voiceover for a normal object in the room.",
+            "Act like a confused tourist for 15 seconds.",
+            "Say a famous quote with the wrong emotion.",
+            "Balance a shoe on your head and do a tiny victory lap.",
+            "Act like your own robot and do a silly walk for 10 seconds.",
+            "Tell the room a fake story about your day in the funniest voice.",
+            "Perform a one-line commercial for your own snacks.",
+            "Do a 10 second fashion show with a random object as a prop.",
+            "Give a dramatic apology speech to a pillow."
         ];
 
         let currentPlayer = 0;
+
+        function shufflePlayers() {
+            const array = [...players];
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         function updatePlayer() {
             document.getElementById('playerName').textContent = players[currentPlayer];
@@ -268,11 +297,17 @@
         }
 
         function nextPlayer() {
-            currentPlayer = (currentPlayer + 1) % players.length;
+            currentPlayer = Math.floor(Math.random() * players.length);
+            if (players.length > 1) {
+                while (currentPlayer === (players.indexOf(document.getElementById('playerName').textContent) || 0)) {
+                    currentPlayer = Math.floor(Math.random() * players.length);
+                }
+            }
             updatePlayer();
         }
 
         function resetGame() {
+            players.splice(0, players.length, ...["KV", "KS", "AD", "SD", "MIKU", "AK99"]);
             currentPlayer = 0;
             updatePlayer();
         }
